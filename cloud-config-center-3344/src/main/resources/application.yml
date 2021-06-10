@@ -1,22 +1,39 @@
 server:
   port: 3344
-
 spring:
   application:
-    name:  cloud-config-center #注册进Eureka服务器的微服务名
+    name: cloud-config-center # 服务名称
   cloud:
     config:
       server:
         git:
-          uri: git@github.com:Jizehan/springcloud-config.git #GitHub上面的git仓库名字
-          ####搜索目录
+#          uri: git@github.com:Jizehan/springcloud-config.git # 填写你自己的github路径
+          uri: https://github.com/Jizehan/springcloud-config.git # 填写你自己的github路径
+          # 搜索目录
           search-paths:
             - springcloud-config
-      ####读取分支
+          skip-ssl-validation: true
+          username: masterji000@163.com
+          password: ji152452
+        # 阅读分支
       label: master
 
-#服务注册到eureka地址
+#rabbitmq相关配置<--------------------------
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: guest
+  password: guest
+
+# 注册到eureka
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:7001/eureka
+      defaultZone:  http://localhost:7001/eureka
+
+##rabbitmq相关配置,暴露bus刷新配置的端点<--------------------------
+management:
+  endpoints: #暴露bus刷新配置的端点
+    web:
+      exposure:
+        include: 'bus-refresh'
